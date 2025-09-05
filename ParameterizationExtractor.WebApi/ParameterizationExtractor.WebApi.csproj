@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Quipu.ParameterizationExtractor.WebApi</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParameterizationExtractor.Common\ParameterizationExtractor.Common.csproj" />
+    <ProjectReference Include="..\ParameterizationExtractor.DSL.Connector\ParameterizationExtractor.DSL.Connector.csproj" />
+    <ProjectReference Include="..\ParameterizationExtractor.DSL\ParameterizationExtractor.DSL.fsproj" />
+    <ProjectReference Include="..\ParameterizationExtractor.Logic\ParameterizationExtractor.Logic.csproj" />
+  </ItemGroup>
+
+</Project>
