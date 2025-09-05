@@ -39,10 +39,23 @@ namespace Quipu.ParameterizationExtractor.Logic.Helpers
 
         public static string GetSeparatedNameValueString(IEnumerable<PField> fields, string separator, Func<PField,string> valueGetter)
         {
-            return string.Join(separator, fields.Where(_=>!string.IsNullOrEmpty(_.ValueToSqlString().Trim()))
-                                                .Select(_ => string.Format("[{0}] = {1}", _.FieldName, valueGetter?.Invoke(_)))
-                               );
-
+            var sb = new StringBuilder();
+            bool first = true;
+            
+            foreach (var field in fields)
+            {
+                var sqlValue = field.ValueToSqlString();
+                if (!string.IsNullOrEmpty(sqlValue?.Trim()))
+                {
+                    if (!first)
+                        sb.Append(separator);
+                    
+                    sb.AppendFormat("[{0}] = {1}", field.FieldName, valueGetter?.Invoke(field));
+                    first = false;
+                }
+            }
+            
+            return sb.ToString();
         }
 
         public static string GetNameValueString(IEnumerable<PField> fields)

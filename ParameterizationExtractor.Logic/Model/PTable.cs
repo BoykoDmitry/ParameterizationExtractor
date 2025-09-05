@@ -127,14 +127,27 @@ namespace Quipu.ParameterizationExtractor.Logic.Model
             }
         }
 
-        private static Regex varRgx = new Regex("(?:[^a-z0-9@]|(?<=['\"])s)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        private static readonly Regex varRgx = new Regex("(?:[^a-z0-9@]|(?<=['\"])s)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
         public string GetPKVarName()
         {
-            var nm = string.Format("@{0}_{1}", TableName, string.Concat(PkFields.Select(_ => $"{_.FieldName}_{_.Value}")));
+            var sb = new StringBuilder();
+            sb.Append("@");
+            sb.Append(TableName);
+            sb.Append("_");
+            
+            foreach (var field in PkFields)
+            {
+                sb.Append(field.FieldName);
+                sb.Append("_");
+                sb.Append(field.Value);
+            }
+            
+            var nm = sb.ToString();
             nm = nm.Replace("-", "Ngt");
             nm = nm.Replace(".", "Point");
             nm = nm.Replace("_", "Un");
             nm = varRgx.Replace(nm, string.Empty);
+            
             if (nm.Length > 120)
             {
                 nm = $"@{GetHashFromString(nm)}";
